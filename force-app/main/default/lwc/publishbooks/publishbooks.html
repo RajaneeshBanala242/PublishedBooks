@@ -1,0 +1,33 @@
+<template>
+    <lightning-card title="Most Published Books">
+        <template if:true={books.length}>
+            <div class="slds-p-around_medium">
+                <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                    <thead>
+                        <tr class="slds-text-title_caps">
+                            <th scope="col"><div>Title</div></th>
+                            <th scope="col"><div>Author</div></th>
+                            <th scope="col"><div>Edition</div></th>
+                            <th scope="col"><div>Publisher</div></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template for:each={books} for:item="book">
+                            <tr key={book.key}>
+                                <td>{book.title}</td>
+                                <td>{book.author}</td>
+                                <td>{book.edition}</td>
+                                <td>{book.publisher}</td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
+        </template>
+        <template if:false={books.length}>
+            <div class="slds-p-around_medium">No books published yet.</div>
+            <lightning-button label="Fetch & Publish Books" onclick={handleFetchBooks} class="slds-m-around_medium"></lightning-button>
+
+        </template>
+    </lightning-card>
+</template>

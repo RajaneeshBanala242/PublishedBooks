@@ -8,9 +8,8 @@ export default class Publishbooks extends LightningElement {
     channelName = '/event/MostPublishedBooks__e';
 
     connectedCallback() {
-        var self = this; //  this context for callbacks
+        var self = this; 
 
-        // Handle any errors from EMP API
         onError(function(error) {
             console.error('Error from EMP API: ', error);
         });
@@ -25,14 +24,12 @@ export default class Publishbooks extends LightningElement {
     }
 
     subscribeToChannel() {
-        var self = this; // keep reference to component for use inside callback
-
-        // Define the message handler as a classic function
+        var self = this;        
         function messageHandler(response) {
-            // Get the event data from the response object
+            // Get the event data from the response
             var eventData = response.data.payload;
 
-            // Create a book object from event data
+            // Create a book object and pass eventdata
             var book = {
                 title: eventData.Title__c,
                 author: eventData.Author__c,
@@ -40,15 +37,14 @@ export default class Publishbooks extends LightningElement {
                 publisher: eventData.Publisher__c,
                 key: eventData.Title__c + '-' + eventData.Edition__c
             };
-
-            // Add the new book to the books array using concat
+        
             self.books = self.books.concat(book);
         }
 
         // Subscribe to the event channel
         subscribe(this.channelName, -1, messageHandler).then(function(response) {
             self.subscription = response;
-            console.log('Subscribed to channel: ', response.channel);
+            console.log('@@@@Subscribed to channel: ', response.channel);
         });
     }
 
@@ -62,12 +58,12 @@ export default class Publishbooks extends LightningElement {
             });
         }
     }
+    // function to call the onclick utton associated 
      handleFetchBooks(event) {
         const actionName = event.target.value;
         enqueueJob()
-            .then(() => {
-              
-                console.log('Queueable job enqueued successfully.');
+            .then(() => {              
+                console.log('********Queueable job enqueued successfully.');
             })
             .catch(error => {
                 console.error('Error enqueuing job: ', error);
